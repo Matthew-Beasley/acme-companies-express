@@ -34,8 +34,6 @@ app.post('/api/companies', async (req, res, next) => {
 
 app.delete('/api/companies/:id', async (req, res, next) => {
   try {
-    console.log('in delete')
-    console.log(req.params)
     let companies = await db.readJSON('./companies.json');
     companies = companies.filter(company => company.id !== req.params.id);
     db.writeJSON('./companies.json', companies)
