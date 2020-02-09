@@ -1,8 +1,8 @@
 const fs = require('fs');
 
 const readJSON = (file)=> {
-  return new Promise((resolve, reject)=> {
-    fs.readFile(file, (err, data)=> {
+  return new Promise((resolve, reject) => {
+    fs.readFile(file, (err, data) => {
       if(data){
         try {
           resolve(JSON.parse(data.toString()));
@@ -18,9 +18,9 @@ const readJSON = (file)=> {
   });
 };
 
-const writeJSON = (file, data)=> {
-  return new Promise((resolve, reject)=> {
-    fs.writeFile(file, JSON.stringify(data, null, 2), (err)=> {
+const writeJSON = (file, data) => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(file, JSON.stringify(data, null, 2), (err) => {
       if(err){
         reject(err);
       }

@@ -13,22 +13,43 @@ body {
   <body>
     <div id='root'></div>
     <script type='text/babel'>
+
       const { useEffect, useState } = React;
       const App = ()=> {
         const [ companies, setCompanies ] = useState([]);
+        const [ name, setName ] = useState('');
+
         useEffect(()=> {
           axios.get('/api/companies')
-            .then( response => setCompanies(response.data));
+            .then( response => setCompanies(response.data))
         }, []);
+
+        const deleteCompany = (id) => {
+          axios.delete(`/api/companies/${id}`)
+          .then(response => setCompanies(response.data));
+        }
+
+        const postCompany = () => { 
+          const company = {};
+          company.name = name;
+          axios.post('./api/companies', company)
+          .then(response => setCompanies(response.data))
+        }
+
         return (
           <div>
             <h2>Acme Companies - POST JSON</h2>
+            <form onSubmit={ev => ev.preventDefault()}>
+              <input type="text" value={name} onChange={ev => setName(ev.target.value)}/>
+              <button onClick={() => postCompany()}>Post</button>
+            </form>
             <ul>
               {
                 companies.map( company => {
                   return (
                     <li key={ company.id }>
                       { company.name }
+                      <button onClick={ev => deleteCompany(company.id)}>X</button>
                     </li>
                   );
                 })
